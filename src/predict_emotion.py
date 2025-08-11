@@ -29,7 +29,7 @@ train_dataset = train_generator.flow_from_directory(directory='../data/train',
 
 test_generator = ImageDataGenerator(rescale=1/255)
 
-test_dataset = test_generator.flow_from_directory(directory='/content/fer2013/validation',
+test_dataset = test_generator.flow_from_directory(directory='../data/test',
                                                   target_size=(48, 48),
                                                   class_mode='categorical',
                                                   batch_size=1,
@@ -97,7 +97,7 @@ network.summary()
 
 # 모델 훈련
 network.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
-epochs = 5
+epochs = 3
 
 network.fit(train_dataset, epochs=epochs)
 
@@ -109,3 +109,6 @@ preds = np.argmax(preds, axis=1)
 print(preds)
 print(test_dataset.classes)
 print(accuracy_score(test_dataset.classes, preds))
+
+# 모델 저장
+network.save('../models/emotion_model.h5')
